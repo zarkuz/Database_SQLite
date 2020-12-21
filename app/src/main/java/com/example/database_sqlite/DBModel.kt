@@ -1,3 +1,3 @@
 package com.example.database_sqlite
 
-class DBModel  (val email: String, val pass: String, val username: String, val fullname: String)
+data class DBModel  (var email: String = "", var pass: String = "", var username: String = "", var fullname: String = "")
