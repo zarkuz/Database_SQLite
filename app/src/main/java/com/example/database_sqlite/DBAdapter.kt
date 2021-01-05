@@ -1,8 +1,11 @@
 package com.example.database_sqlite
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -12,6 +15,9 @@ class DBAdapter(private val listDataku: ArrayList<DBModel>): RecyclerView.Adapte
         var tvpassku: TextView = itemV.findViewById(R.id.tv_passku)
         var tvakunku: TextView = itemV.findViewById(R.id.tv_akunku)
         var tvnamaku: TextView = itemV.findViewById(R.id.tv_namaku)
+        var btndelete: Button = itemV.findViewById(R.id.btn_deletecard)
+        var btnupdate: Button = itemV.findViewById(R.id.btn_updatecard)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -26,9 +32,31 @@ class DBAdapter(private val listDataku: ArrayList<DBModel>): RecyclerView.Adapte
         holder.tvakunku.text = dataku.username
         holder.tvnamaku.text = dataku.fullname
 
+        holder.btndelete.setOnClickListener {
+            var adapterDBHelper: DBHelper
+            adapterDBHelper = DBHelper(holder.itemView.context)
+            adapterDBHelper.deleteData(dataku.email)
+            listDataku.removeAt(position)
+            notifyDataSetChanged()
+        }
+
+        holder.btnupdate.setOnClickListener {
+            val pindahUpdAc = Intent(holder.itemView.context, UpdateActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("emailk", dataku.email)
+            bundle.putString("usernamek", dataku.username)
+            bundle.putString("fullnamek", dataku.fullname)
+            bundle.putString("passk", dataku.pass)
+            pindahUpdAc.putExtras(bundle)
+            holder.itemView.context.startActivity(pindahUpdAc)
+        }
+
+
     }
 
     override fun getItemCount(): Int {
         return listDataku.size
     }
+
+
 }

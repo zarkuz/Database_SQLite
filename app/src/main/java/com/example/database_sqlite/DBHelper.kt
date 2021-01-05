@@ -70,6 +70,26 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         }
         return  users
     }
+    fun deleteData(emailin: String){
+        val db = writableDatabase
+        val namatablet = DBInfo.UserInput.TABLE_NAME
+        val emailt = DBInfo.UserInput.COL_EMAIL
+        val sql = "DELETE FROM " +namatablet+ " WHERE "+emailt+"='"+emailin+"'"
+        db.execSQL(sql)
+    }
+    fun updateData(emailin: String, passin: String, usernamein: String, fullnamein: String){
+        val db = writableDatabase
+        val namatablet = DBInfo.UserInput.TABLE_NAME
+        val emailt = DBInfo.UserInput.COL_EMAIL
+        val passt = DBInfo.UserInput.COL_PASS
+        val usernamet = DBInfo.UserInput.COL_USERNAME
+        val fullnamet = DBInfo.UserInput.COL_FULLNAME
+        var sql = "UPDATE "+ namatablet + " SET "+
+                usernamet+"='"+usernamein+"', "+fullnamet+"='"+fullnamein+"', "+passt+"='"+passin+"' "+
+                "WHERE "+emailt+"='"+emailin+"'"
+        db.execSQL(sql)
+    }
+
 
 }
 
